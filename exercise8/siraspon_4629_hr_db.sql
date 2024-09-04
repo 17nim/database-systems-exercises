@@ -102,5 +102,8 @@ FROM employee_projects
     INNER JOIN projects ON projects.project_id = employee_projects.project_id
     INNER JOIN departments ON departments.department_id = projects.department_id;
 
-SELECT * FROM employees
-WHERE employee_id = manager_id;
+SELECT e1.first_name, e1.last_name, e1.salary, e2.first_name AS manager_first_name, 
+    e2.last_name AS manager_last_name, e2.salary AS manager_salary
+    FROM employees e1 INNER JOIN employees e2
+    ON e1.manager_id = e2.employee_id
+    WHERE e1.salary > e2.salary;

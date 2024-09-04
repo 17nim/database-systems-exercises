@@ -65,3 +65,24 @@ INSERT INTO enrollments VALUES
     (6, 2, 103, 'Spring', 2024, NULL),
     (7, 3, 101, 'Fall', 2023, 'A'),
     (8, 3, 201, 'Spring', 2024, NULL);  
+
+SELECT first_name, last_name, course_name, department
+    FROM students NATURAL JOIN enrollments NATURAL JOIN courses;
+
+SELECT DISTINCT course_name, department, semester, year
+    FROM courses NATURAL JOIN enrollments
+    WHERE department = 'Computer Engineering';
+
+SELECT first_name, last_name, course_name, department
+    FROM students NATURAL JOIN enrollments NATURAL JOIN courses
+    WHERE course_name LIKE '%Programming%';
+
+SELECT first_name, last_name, course_name, department
+    FROM professors NATURAL JOIN courses
+    WHERE course_name LIKE '%Systems%';
+
+SELECT DISTINCT students.first_name, students.last_name, professors.first_name, professors.last_name
+    FROM (enrollments NATURAL JOIN (courses NATURAL JOIN professors)) INNER JOIN students
+    WHERE enrollments.student_id = students.student_id
+    AND students.last_name LIKE 'S%'
+    AND professors.last_name LIKE 'S%';

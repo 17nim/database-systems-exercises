@@ -83,8 +83,17 @@ INSERT INTO assignment VALUES
 (103, 6, 'Financial Advisor'),
 (105, 5, 'Data Scientist');
 
-SELECT employee.name FROM employee
-    INNER JOIN project ON employee.company_id = project.company_id
-    WHERE project.budget < 500000;
+SELECT DISTINCT employee.name
+    FROM (employee NATURAL JOIN assignment)
+    INNER JOIN project ON assignment.project_id = project.project_id
+    WHERE project.budget > (SELECT AVG(budget) FROM project);
 
-SELECT
+UPDATE employee
+SET salary = salary * 1.10
+WHERE emp_id IN (
+    SELECT e.emp_id
+    FROM employee e
+    JOIN assignment a ON e.emp_id = a.emp_id
+    JOIN project p ON a.project_id = p.project_id
+    WHERE p.budget > 500000
+);
